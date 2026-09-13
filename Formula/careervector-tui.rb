@@ -21,7 +21,7 @@ class CareervectorTui < Formula
 
   def install
     libexec.install Dir["*", ".[^.]*"]
-    paths = dependencies.reject { |dep| dep.name == "patchelf" }.flat_map do |dep|
+    paths = deps.reject { |dep| dep.name == "patchelf" }.flat_map do |dep|
       formula = dep.to_formula
       [formula.opt_lib.to_s, *formula.runtime_formula_dependencies.map { |runtime| runtime.opt_lib.to_s }]
     end
@@ -30,7 +30,7 @@ class CareervectorTui < Formula
     ["bin/careervector", "bin/careervector-tui", "bin/cterm", "bin/ctermd"].each do |binary|
       system Formula["patchelf"].opt_bin/"patchelf", "--set-rpath", rpath, libexec/binary
     end
-    (bin/"careervector").write_env_script libexec/"bin/careervector", XDG_DATA_DIRS: dependencies.map { |dep| dep.to_formula.opt_share.to_s }.join(":") + ":/usr/local/share:/usr/share"
+    (bin/"careervector").write_env_script libexec/"bin/careervector", XDG_DATA_DIRS: deps.map { |dep| dep.to_formula.opt_share.to_s }.join(":") + ":/usr/local/share:/usr/share"
   end
 
   test do

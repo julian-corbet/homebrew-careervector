@@ -24,7 +24,7 @@ class Careervector < Formula
 
   def install
     libexec.install Dir["*", ".[^.]*"]
-    paths = dependencies.reject { |dep| dep.name == "patchelf" }.flat_map do |dep|
+    paths = deps.reject { |dep| dep.name == "patchelf" }.flat_map do |dep|
       formula = dep.to_formula
       [formula.opt_lib.to_s, *formula.runtime_formula_dependencies.map { |runtime| runtime.opt_lib.to_s }]
     end
